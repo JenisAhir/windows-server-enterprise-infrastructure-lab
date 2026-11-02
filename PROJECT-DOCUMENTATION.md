@@ -700,3 +700,34 @@ Connectivity to internal domain resources was tested, including communication wi
 The lab demonstrates the deployment of an internal Enterprise Root CA, certificate template configuration, certificate enrollment, root CA trust installation, and IKEv2 VPN connectivity.
 
 It also demonstrates how RRAS, NPS/RADIUS, Active Directory security groups, and certificate-based trust work together to provide authenticated remote access to an internal Windows Server environment.
+
+## 11. Remote Desktop and Remote Administration
+
+Remote Desktop Protocol (RDP) was configured to allow administrative access to the Windows Server domain controllers from a remote Windows client.
+
+### 11.1 Remote Desktop Configuration
+
+Remote Desktop was enabled on DC1 and DC2 to allow authorized remote administration.
+
+Network Level Authentication (NLA) was retained to provide an additional authentication requirement before establishing an RDP session.
+
+![DC1 and DC2 RDP Configuration](Screenshots/09-Remote-Administration/DC1-DC2-RDP-Configuration.png)
+
+### 11.2 Remote Administration Through VPN
+
+The Windows 11 VPN client was connected to the internal lab network using the configured IKEv2 VPN connection.
+
+After establishing the VPN connection, Remote Desktop was used to access both domain controllers:
+
+- DC1 — `192.168.50.10`
+- DC2 — `192.168.50.11`
+
+Successful remote access verified that the VPN client could reach and administer internal Windows Server systems.
+
+![VPN Client RDP Access to DC1 and DC2](Screenshots/09-Remote-Administration/VPN-Client-RDP-Access-DC1-DC2.png)
+
+### 11.3 Outcome
+
+The lab demonstrates remote administration of Windows Server domain controllers through an authenticated VPN connection.
+
+It combines IKEv2 remote access, Active Directory authentication, and Remote Desktop with Network Level Authentication to support secure administrative connectivity.
