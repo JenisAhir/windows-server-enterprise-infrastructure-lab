@@ -6,6 +6,12 @@ This project demonstrates the design, configuration, and administration of a mul
 
 The lab simulates a small enterprise IT environment, focusing on centralized identity management, network services, security policies, remote access, and server backup.
 
+## Full Project Documentation
+
+For detailed implementation steps, configuration details, screenshots, and testing results, see the complete project documentation:
+
+[View Full Project Documentation](PROJECT-DOCUMENTATION.md)
+
 ## Technologies Used
 
 - Windows Server 2022
