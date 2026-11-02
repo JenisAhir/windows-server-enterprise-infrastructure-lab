@@ -12,6 +12,22 @@ The project also demonstrates how multiple infrastructure services work together
 
 All configurations and testing were performed in an isolated virtual lab environment for educational and portfolio purposes.
 
+## Table of Contents
+
+1. [Project Overview](#1-project-overview)
+2. [Lab Architecture and Network Topology](#2-lab-architecture-and-network-topology)
+3. [VMware Virtual Infrastructure](#3-vmware-virtual-infrastructure)
+4. [Active Directory Domain Services](#4-active-directory-domain-services)
+5. [DNS and DHCP Services](#5-dns-and-dhcp-services)
+6. [Group Policy Management](#6-group-policy-management)
+7. [File Services and Distributed File System (DFS)](#7-file-services-and-distributed-file-system-dfs)
+8. [Routing and Remote Access (RRAS) and NAT](#8-routing-and-remote-access-rras-and-nat)
+9. [VPN and Network Policy Server (NPS)](#9-vpn-and-network-policy-server-nps)
+10. [Active Directory Certificate Services (AD CS) and VPN Client Connectivity](#10-active-directory-certificate-services-ad-cs-and-vpn-client-connectivity)
+11. [Remote Desktop and Remote Administration](#11-remote-desktop-and-remote-administration)
+12. [Windows Server Backup and Recovery](#12-windows-server-backup-and-recovery)
+13. [Project Summary and Skills Demonstrated](#13-project-summary-and-skills-demonstrated)
+
 ## 2. Lab Architecture and Network Topology
 
 The lab was built using VMware Workstation with an isolated internal network and a separate NAT network for external connectivity.
