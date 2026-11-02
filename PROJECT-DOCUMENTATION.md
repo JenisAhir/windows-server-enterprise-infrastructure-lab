@@ -455,3 +455,60 @@ Replication was then checked on both domain controllers to confirm that the test
 The lab demonstrates Windows file sharing, access control through share and NTFS permissions, domain-based DFS namespace configuration, and folder replication between two domain controllers.
 
 The DFS namespace provides a consistent access path, while DFS Replication maintains copies of the configured folder data across the participating servers.
+
+## 8. Routing and Remote Access (RRAS) and NAT
+
+Routing and Remote Access Service (RRAS) was configured on Router1 to provide routing and Network Address Translation (NAT) between the internal lab network and the external network.
+
+### 8.1 Router1 Network Configuration
+
+Router1 was deployed with two network adapters:
+
+- **LAN adapter:** Connected to the internal VMware network, VMnet10.
+- **WAN adapter:** Connected to the VMware NAT network, VMnet8.
+
+The LAN adapter was assigned the static IP address `192.168.50.1`, which serves as the default gateway for devices on the internal network.
+
+The WAN adapter obtained its IP configuration through DHCP from the VMware NAT network.
+
+![Router1 WAN and LAN Network Adapters](Screenshots/06-RRAS-NAT/Router1-WAN-LAN-Network-Adapters.png)
+
+### 8.2 Router1 Hostname and IP Configuration
+
+Router1 was configured with its hostname and network settings before RRAS was installed.
+
+![Router1 Hostname and IP Configuration](Screenshots/06-RRAS-NAT/Router1-Hostname-IP-Configuration.png)
+
+### 8.3 RRAS Installation and Configuration
+
+The Remote Access server role was installed on Router1. RRAS was configured to provide LAN routing and NAT functionality.
+
+![Router1 RRAS Installation](Screenshots/06-RRAS-NAT/Router1-RRAS-Installation.png)
+
+### 8.4 NAT Configuration
+
+NAT was configured in RRAS to allow internal network devices to access external networks through Router1's WAN connection.
+
+The internal LAN interface was configured as the private network interface, while the WAN interface was configured as the public interface with NAT enabled.
+
+![Router1 RRAS NAT Interface Configuration](Screenshots/06-RRAS-NAT/Router1-RRAS-NAT-Interface-Configuration.png)
+
+### 8.5 Default Gateway Configuration
+
+The domain controllers were configured to use Router1 (`192.168.50.1`) as their default gateway.
+
+This allows DC1 and DC2 to route traffic destined for external networks through Router1.
+
+![Domain Controllers Router1 Default Gateway](Screenshots/06-RRAS-NAT/Domain-Controllers-Router1-Default-Gateway.png)
+
+### 8.6 Internet Connectivity Verification
+
+Internet connectivity was tested from an internal Windows client after RRAS and NAT configuration.
+
+Successful connectivity confirmed that internal network traffic could reach external networks through Router1.
+
+![Client Internet Connectivity Verification](Screenshots/06-RRAS-NAT/Client-Internet-Connectivity-Verification.png)
+
+### 8.7 Outcome
+
+The lab demonstrates how a Windows Server can function as a router and NAT gateway, allowing devices on an isolated internal network to access external networks through a separate WAN connection.
