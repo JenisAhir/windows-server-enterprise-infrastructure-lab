@@ -106,3 +106,107 @@ Router1 was configured with two virtual network adapters:
 - WAN adapter connected to VMnet8.
 
 This network design allowed Router1 to provide routing and NAT services between the internal lab network and external connectivity.
+
+## 4. Active Directory Domain Services
+
+Active Directory Domain Services (AD DS) was deployed to provide centralized identity management, authentication, and administration for the lab environment.
+
+Two Windows Server 2022 virtual machines, DC1 and DC2, were configured as domain controllers within the `ad.lab` domain. DC1 was configured as the first domain controller, followed by the deployment of DC2 as an additional domain controller.
+
+### 4.1 DC1 Initial Configuration
+
+DC1 was prepared for the Active Directory deployment by configuring its computer name and static IPv4 address.
+
+The following settings were configured:
+
+- Computer name: DC1
+- Static IP address: `192.168.50.10`
+- Subnet mask: `255.255.255.0`
+- DNS server: `192.168.50.10`
+
+**DC1 Computer Name Configuration**
+
+![DC1 Computer Rename](Screenshots/02-Active-Directory/DC1-Computer-Rename.png)
+
+**DC1 Static IP Configuration**
+
+![DC1 Static IP Configuration](Screenshots/02-Active-Directory/DC1-Static-IP-Configuration.png)
+
+### 4.2 AD DS Installation and Domain Creation
+
+The Active Directory Domain Services role was installed on DC1 through Server Manager.
+
+DC1 was then promoted to a domain controller by creating a new forest with the domain name `ad.lab`.
+
+This established the first domain controller and the foundation for centralized domain management.
+
+**AD DS Role Installation**
+
+![AD DS Installation on DC1](Screenshots/02-Active-Directory/DC1-ADDS-Installation.png)
+
+**New Forest Creation**
+
+![Active Directory New Forest Creation](Screenshots/02-Active-Directory/AD-New-Forest-Creation.png)
+
+### 4.3 DC2 Domain Controller Deployment
+
+DC2 was configured as an additional domain controller to provide redundancy and improve the availability of Active Directory services.
+
+The deployment process included:
+
+- Preparing DC2 with its initial network configuration.
+- Joining DC2 to the existing `ad.lab` domain.
+- Installing the Active Directory Domain Services role.
+- Promoting DC2 to an additional domain controller.
+- Configuring DNS during the domain controller promotion.
+
+**DC2 Initial Configuration**
+
+![DC2 Initial Configuration](Screenshots/02-Active-Directory/DC2-Initial-Configuration.png)
+
+**DC2 Domain Join**
+
+![DC2 Domain Join](Screenshots/02-Active-Directory/DC2-Domain-Join.png)
+
+**DC2 Domain Controller Promotion**
+
+![DC2 Domain Controller Promotion](Screenshots/02-Active-Directory/DC2-Domain-Controller-Promotion.png)
+
+### 4.4 Active Directory Users and Groups
+
+Organizational Units (OUs), user accounts, and security groups were created to organize and manage domain users.
+
+The lab included separate IT and Support organizational units and corresponding security groups.
+
+The following test accounts were created:
+
+- Alex Morgan (`alex.morgan`) — IT user.
+- Maria Jones (`maria.jones`) — Support user.
+
+Security groups were used to organize users according to their roles and support future access control and Group Policy administration.
+
+![Active Directory Users and Groups](Screenshots/02-Active-Directory/AD-Users-And-Groups.png)
+
+### 4.5 Active Directory Replication
+
+Active Directory replication was configured between DC1 and DC2 to synchronize directory information across both domain controllers.
+
+Replication was verified to confirm that changes made within the domain could be replicated between the domain controllers.
+
+![Active Directory Replication Configuration](Screenshots/02-Active-Directory/AD-Replication-Configuration.png)
+
+![Active Directory Replication Verification](Screenshots/02-Active-Directory/AD-Replication-Verification.png)
+
+### 4.6 Active Directory Implementation Summary
+
+The Active Directory deployment established a centralized domain environment with two domain controllers.
+
+The completed configuration provided:
+
+- A new Active Directory forest and `ad.lab` domain.
+- Two domain controllers, DC1 and DC2.
+- Centralized user and group management.
+- Organizational Units for IT and Support users.
+- Active Directory replication between domain controllers.
+
+These services provided the foundation for subsequent DNS, DHCP, Group Policy, file services, and remote access configurations.
