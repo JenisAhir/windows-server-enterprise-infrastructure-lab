@@ -731,3 +731,132 @@ Successful remote access verified that the VPN client could reach and administer
 The lab demonstrates remote administration of Windows Server domain controllers through an authenticated VPN connection.
 
 It combines IKEv2 remote access, Active Directory authentication, and Remote Desktop with Network Level Authentication to support secure administrative connectivity.
+
+## 12. Windows Server Backup and Recovery
+
+Windows Server Backup was implemented to provide backup capabilities for the domain controllers. Separate virtual disks were added to store backup data, and both one-time and scheduled backup operations were configured.
+
+### 12.1 Windows Server Backup Installation
+
+The Windows Server Backup feature was installed to provide server backup and recovery functionality.
+
+![Windows Server Backup Installation on DC1](Screenshots/10-Server-Backup/Windows-Server-Backup-Installation-DC1.png)
+
+### 12.2 Dedicated Backup Storage
+
+A separate 20 GB virtual disk was added to DC1 for backup storage.
+
+The disk was initialized, formatted with NTFS, and assigned the drive letter `E:` with the volume label `DC1-Backup`.
+
+![DC1 Dedicated Backup Disk](Screenshots/10-Server-Backup/DC1-Dedicated-Backup-Disk.png)
+
+![DC1 Backup Disk Management](Screenshots/10-Server-Backup/DC1-Backup-Disk-Management.png)
+
+### 12.3 Backup Execution
+
+Backup operations were performed on DC1 and DC2 to verify that backup data could be created successfully.
+
+![DC1 and DC2 Backup Completion](Screenshots/10-Server-Backup/DC1-DC2-Backup-Completion.png)
+
+The resulting backup files were checked to verify that backup data was present on the configured storage.
+
+![DC1 and DC2 Backup Files Verification](Screenshots/10-Server-Backup/DC1-DC2-Backup-Files-Verification.png)
+
+### 12.4 Scheduled Backup Configuration
+
+Scheduled backups were configured to automate recurring backup operations for the domain controllers.
+
+The backup schedule was reviewed in Windows Server Backup to verify the configured schedule.
+
+![DC1 and DC2 Backup Schedule Configuration](Screenshots/10-Server-Backup/DC1-DC2-Backup-Schedule-Configuration.png)
+
+![DC1 and DC2 Scheduled Backup Confirmation](Screenshots/10-Server-Backup/DC1-DC2-Scheduled-Backup-Confirmation.png)
+
+### 12.5 Outcome and Backup Considerations
+
+The lab demonstrates Windows Server Backup installation, backup storage preparation, backup execution, and scheduled backup configuration.
+
+The backup disks are separate virtual disks within the same VMware host environment. This is useful for demonstrating backup configuration, but it does not provide full protection against host failure or other site-wide incidents.
+
+In a production environment, backups should also be maintained on independent storage, with appropriate off-site or immutable copies and regular restore testing.
+
+## 13. Project Summary and Skills Demonstrated
+
+### 13.1 Project Summary
+
+This project involved designing, deploying, configuring, and testing an enterprise-style Windows Server infrastructure in a virtualized VMware Workstation environment.
+
+The lab consists of two Windows Server 2022 domain controllers, a Windows Server-based router, and Windows 11 client systems.
+
+The environment was built around the `ad.lab` Active Directory domain and an internal network using the `192.168.50.0/24` subnet.
+
+The project brought together identity management, network services, centralized administration, file sharing, remote access, certificate services, and backup configuration.
+
+### 13.2 Technologies and Services
+
+The following technologies and services were implemented:
+
+| Category | Technologies and Services |
+|---|---|
+| Virtualization | VMware Workstation |
+| Operating Systems | Windows Server 2022, Windows 11 Pro |
+| Identity and Access Management | Active Directory Domain Services (AD DS), Organizational Units, Users, Security Groups |
+| DNS and DHCP | DNS Forward and Reverse Lookup Zones, DHCP Scopes, DHCP Options, DHCP Failover |
+| Group Policy | User Restrictions, Workstation Security Policies, Password Policy, Drive Mapping |
+| File Services | SMB File Sharing, Share Permissions, NTFS Permissions |
+| Distributed File System | DFS Namespace, DFS Replication (DFSR) |
+| Routing and Networking | RRAS, NAT, IPv4 Routing |
+| Remote Access | IKEv2 VPN, RADIUS, Network Policy Server (NPS) |
+| Certificate Services | Active Directory Certificate Services (AD CS), Enterprise Root CA, Certificate Templates |
+| Remote Administration | Remote Desktop Protocol (RDP), Network Level Authentication (NLA) |
+| Backup and Recovery | Windows Server Backup, Dedicated Backup Disks, Scheduled Backups |
+
+### 13.3 Practical Skills Demonstrated
+
+This project provided hands-on experience with:
+
+- Deploying and configuring Windows Server virtual machines.
+- Designing an internal virtual network with separate LAN and WAN connectivity.
+- Installing and configuring Active Directory Domain Services.
+- Creating domain users, security groups, and organizational units.
+- Promoting a second domain controller and verifying Active Directory replication.
+- Configuring DNS and DHCP services, including DHCP failover.
+- Applying centralized security and configuration policies through Group Policy.
+- Managing shared folders using SMB, share permissions, and NTFS permissions.
+- Implementing DFS namespaces and folder replication between servers.
+- Configuring Windows Server RRAS and NAT for internal network connectivity.
+- Deploying IKEv2 VPN remote access with NPS/RADIUS authentication.
+- Implementing an internal certificate authority and enrolling server certificates.
+- Testing remote connectivity and administering domain controllers through RDP.
+- Configuring Windows Server Backup and scheduled backup operations.
+
+### 13.4 Testing and Verification
+
+The infrastructure was tested throughout deployment to verify that the configured services operated as expected.
+
+Testing included:
+
+- Active Directory domain membership and replication verification.
+- DNS name resolution through both domain controllers.
+- DHCP address assignment and failover configuration.
+- Group Policy application and client-side restriction verification.
+- Shared folder access and DFS replication testing.
+- Internal network internet connectivity through Router1.
+- VPN authentication and successful IKEv2 connection.
+- Access to internal resources through the VPN connection.
+- Remote Desktop access to DC1 and DC2.
+- Backup completion and backup file verification.
+
+### 13.5 Project Outcome
+
+The completed lab demonstrates the deployment and integration of multiple Windows Server infrastructure services in a multi-server environment.
+
+It provides practical experience with systems administration, network services, identity management, security configuration, remote access, troubleshooting, and infrastructure documentation.
+
+The project also serves as a foundation for future lab expansions, including additional client systems, monitoring, automation, security hardening, and recovery testing.
+
+### 13.6 Disclaimer
+
+This is a personal learning and demonstration environment built using VMware Workstation and virtual machines. It is not a production deployment.
+
+Configurations and security practices may require additional hardening, independent backup infrastructure, monitoring, and testing before being used in a production environment.
