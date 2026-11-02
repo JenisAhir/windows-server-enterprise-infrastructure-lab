@@ -512,3 +512,97 @@ Successful connectivity confirmed that internal network traffic could reach exte
 ### 8.7 Outcome
 
 The lab demonstrates how a Windows Server can function as a router and NAT gateway, allowing devices on an isolated internal network to access external networks through a separate WAN connection.
+
+## 9. VPN and Network Policy Server (NPS)
+
+A remote-access VPN solution was configured using Windows Server RRAS and Network Policy Server (NPS). RADIUS authentication was implemented to authenticate domain users and control VPN access based on Active Directory group membership.
+
+### 9.1 Router1 Domain Membership
+
+Router1 was joined to the `ad.lab` domain so that it could communicate with the domain controllers and use domain-based authentication services.
+
+![Router1 Domain Join](Screenshots/07-VPN-NPS/Router1-Domain-Join.png)
+
+### 9.2 NPS Role Installation
+
+The Network Policy Server (NPS) role was installed on both DC1 and DC2.
+
+NPS was registered in Active Directory so that the servers could access domain user account and group information during authentication.
+
+![NPS Installation on DC1 and DC2](Screenshots/07-VPN-NPS/NPS-Installation-DC1-DC2.png)
+
+### 9.3 VPN Security Group
+
+An Active Directory security group named `IT-VPN-Users` was created to manage which domain users were authorized to connect to the VPN.
+
+This allows VPN access to be controlled through group membership rather than configuring access individually for each user.
+
+![IT VPN Users Group](Screenshots/07-VPN-NPS/AD-IT-VPN-Users-Group.png)
+
+### 9.4 RADIUS Client Configuration
+
+Router1 was configured as a RADIUS client on both NPS servers.
+
+The RADIUS client configuration allows Router1 to forward VPN authentication requests to DC1 and DC2.
+
+![DC1 NPS Router1 RADIUS Client](Screenshots/07-VPN-NPS/DC1-NPS-Router1-RADIUS-Client.png)
+
+![DC2 NPS Router1 RADIUS Client](Screenshots/07-VPN-NPS/DC2-NPS-Router1-RADIUS-Client.png)
+
+### 9.5 VPN Network Policy
+
+A network policy named `Allow-IT-VPN-Users` was configured on both NPS servers.
+
+The policy uses Active Directory group membership to authorize VPN access for users belonging to `IT-VPN-Users`.
+
+![DC1 NPS VPN Network Policy](Screenshots/07-VPN-NPS/DC1-NPS-VPN-Network-Policy.png)
+
+![DC2 NPS VPN Network Policy](Screenshots/07-VPN-NPS/DC2-NPS-VPN-Network-Policy.png)
+
+### 9.6 Router1 RADIUS Authentication Configuration
+
+Router1 was configured to use the NPS servers as its RADIUS authentication servers.
+
+This enables VPN authentication requests to be processed through the configured NPS policies.
+
+![Router1 RADIUS Authentication Servers](Screenshots/07-VPN-NPS/Router1-RADIUS-Authentication-Servers.png)
+
+### 9.7 VPN Address Pool
+
+A dedicated IP address pool was configured for remote VPN clients.
+
+The configured address range was:
+
+`192.168.60.10–192.168.60.20`
+
+This separates VPN client addresses from the internal LAN DHCP scope.
+
+![Router1 VPN Address Pool](Screenshots/07-VPN-NPS/Router1-VPN-Address-Pool.png)
+
+### 9.8 RRAS Remote Access Configuration
+
+RRAS was configured to support remote-access VPN connections.
+
+The IPv4 remote-access configuration and IKEv2 VPN protocol settings were configured on Router1.
+
+![Router1 RRAS IPv4 Remote Access](Screenshots/07-VPN-NPS/Router1-RRAS-IPv4-Remote-Access.png)
+
+![Router1 IKEv2 Miniport Configuration](Screenshots/07-VPN-NPS/Router1-IKEv2-Miniport-Configuration.png)
+
+The IKEv2 service status was checked to verify that the required VPN service was running.
+
+![Router1 IKEv2 Service Status](Screenshots/07-VPN-NPS/Router1-IKEv2-Service-Status.png)
+
+### 9.9 NPS Authentication Method
+
+The VPN network policy was configured to use EAP-MSCHAPv2 for user authentication.
+
+This configuration enables domain credentials to be used during VPN authentication.
+
+![DC1 NPS EAP MSCHAPv2 Configuration](Screenshots/07-VPN-NPS/DC1-NPS-EAP-MSCHAPv2-Configuration.png)
+
+### 9.10 Outcome
+
+The lab demonstrates remote-access VPN configuration using Windows Server RRAS, RADIUS authentication through NPS, and Active Directory group-based authorization.
+
+The next section documents the certificate infrastructure, VPN client configuration, successful connection, and internal resource access.
