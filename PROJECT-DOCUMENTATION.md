@@ -371,3 +371,87 @@ This provides users with a consistent domain-based path rather than directly ref
 Group Policy settings were tested using domain user accounts and a Windows client to confirm that the configured restrictions and workstation policies were applied.
 
 The lab demonstrates centralized policy management through Active Directory and Group Policy.
+
+## 7. File Services and Distributed File System (DFS)
+
+File services were configured to provide shared network storage for domain users. Distributed File System (DFS) was then implemented to provide a domain-based namespace and replicate shared folder data between DC1 and DC2.
+
+### 7.1 Shared Folder Creation on DC1
+
+A shared folder named `Support` was created on DC1 and made available over the network using the following UNC path:
+
+`\\DC1\Support`
+
+This share was used as the initial network location for Support department files.
+
+![DC1 Support Shared Folder](Screenshots/05-File-Services-DFS/DC1-Support-Shared-Folder.png)
+
+### 7.2 Share and NTFS Permissions
+
+Share permissions and NTFS permissions were configured to control access to the Support folder.
+
+Access was assigned to the relevant Active Directory groups, including `IT` and `Support`, while administrative access was retained for management.
+
+This demonstrates how Windows file sharing uses both share-level and NTFS permissions to control access to network resources.
+
+**Share permissions:**
+
+![Support Share Permissions](Screenshots/05-File-Services-DFS/Support-Share-Permissions.png)
+
+**NTFS permissions:**
+
+![Support NTFS Permissions](Screenshots/05-File-Services-DFS/Support-NTFS-Permissions.png)
+
+### 7.3 DFS Role Installation
+
+The DFS role services were installed on both DC1 and DC2 to support the domain-based namespace and folder replication.
+
+![DFS Role Installation on DC1 and DC2](Screenshots/05-File-Services-DFS/DFS-Role-Installation-DC1-DC2.png)
+
+### 7.4 Support Folder Preparation on DC2
+
+A corresponding Support folder was prepared on DC2 as the second folder target for DFS replication.
+
+![DC2 Support Folder Preparation](Screenshots/05-File-Services-DFS/DC2-Support-Folder-Preparation.png)
+
+### 7.5 DFS Namespace Configuration
+
+A domain-based DFS namespace was created using the following path:
+
+`\\ad.lab\Support`
+
+This namespace provides users with a consistent domain-based path to access the shared Support folder without having to specify an individual server name.
+
+![DFS Namespace Creation](Screenshots/05-File-Services-DFS/DFS-Namespace-Creation.png)
+
+### 7.6 DFS Replication Configuration
+
+DFS Replication (DFSR) was configured to replicate the Support folder between DC1 and DC2.
+
+The replication configuration established the folder membership and replication relationship between the two servers.
+
+![DFS Replication Configuration](Screenshots/05-File-Services-DFS/DFS-Replication-Configuration.png)
+
+![DFS Replication Folder Membership](Screenshots/05-File-Services-DFS/DFS-Replication-Folder-Membership.png)
+
+### 7.7 DFS Replication Testing and Verification
+
+A test file was created through the client to verify access to the shared folder.
+
+Replication was then checked on both domain controllers to confirm that the test file was available on DC1 and DC2.
+
+![DFS Client File Creation](Screenshots/05-File-Services-DFS/DFS-Client-File-Creation.png)
+
+**Replication verification on DC1:**
+
+![DFS Replication Verification DC1](Screenshots/05-File-Services-DFS/DFS-Replication-Verification-DC1.png)
+
+**Replication verification on DC2:**
+
+![DFS Replication Verification DC2](Screenshots/05-File-Services-DFS/DFS-Replication-Verification-DC2.png)
+
+### 7.8 Outcome
+
+The lab demonstrates Windows file sharing, access control through share and NTFS permissions, domain-based DFS namespace configuration, and folder replication between two domain controllers.
+
+The DFS namespace provides a consistent access path, while DFS Replication maintains copies of the configured folder data across the participating servers.
