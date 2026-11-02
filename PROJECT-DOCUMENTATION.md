@@ -606,3 +606,97 @@ This configuration enables domain credentials to be used during VPN authenticati
 The lab demonstrates remote-access VPN configuration using Windows Server RRAS, RADIUS authentication through NPS, and Active Directory group-based authorization.
 
 The next section documents the certificate infrastructure, VPN client configuration, successful connection, and internal resource access.
+
+## 10. Active Directory Certificate Services (AD CS) and VPN Client Connectivity
+
+Active Directory Certificate Services (AD CS) was implemented to provide an internal certificate authority for the lab environment. A certificate was issued to Router1 for the IKEv2 VPN configuration, and the VPN client was configured to trust the lab's root CA certificate.
+
+### 10.1 AD CS Role Installation
+
+The Active Directory Certificate Services role was installed on DC1.
+
+![AD CS Role Installation on DC1](Screenshots/08-Certificates/ADCS-Role-Installation-DC1.png)
+
+### 10.2 Enterprise Certificate Authority Configuration
+
+An Enterprise Root Certificate Authority (CA) named `AD-LAB-CA` was configured on DC1.
+
+The Enterprise CA integrates with Active Directory to publish certificate information and make certificate templates available to domain members.
+
+![Enterprise CA Configuration](Screenshots/08-Certificates/Enterprise-CA-Configuration.png)
+
+### 10.3 Certificate Template Configuration
+
+A certificate template named `Router1-IKEv2` was configured and published through the Certificate Authority.
+
+The template was prepared to allow Router1 to enroll for a certificate suitable for its VPN configuration.
+
+![Certificate Template Management](Screenshots/08-Certificates/Certificate-Template-Management.png)
+
+![Certificate Template Publishing](Screenshots/08-Certificates/Certificate-Template-Publishing.png)
+
+### 10.4 Router1 Certificate Enrollment
+
+Router1 enrolled for a certificate using the `Router1-IKEv2` certificate template.
+
+The issued certificate was used for the Router1 IKEv2 VPN configuration.
+
+![Router1 IKEv2 Certificate Enrollment](Screenshots/08-Certificates/Router1-IKEv2-Certificate-Enrollment.png)
+
+### 10.5 RRAS Certificate Binding
+
+The appropriate certificate was selected and bound to the RRAS VPN configuration on Router1.
+
+![Router1 RRAS SSL Certificate Binding](Screenshots/08-Certificates/Router1-RRAS-SSL-Certificate-Binding.png)
+
+### 10.6 VPN Client Root CA Trust Configuration
+
+The public certificate of the internal root CA was downloaded and installed on the Windows 11 VPN client.
+
+This allows the client to establish trust in the certificate chain presented by Router1 during VPN authentication.
+
+![VPN Client CA Certificate Downloaded](Screenshots/08-Certificates/VPN-Client-CA-Certificate-Downloaded.png)
+
+![VPN Client Trusted Root CA Installation](Screenshots/08-Certificates/VPN-Client-Trusted-Root-CA-Installation.png)
+
+### 10.7 VPN Client Configuration
+
+The Windows 11 VPN client was configured to connect to Router1 using the IKEv2 VPN protocol.
+
+The VPN connection was configured to use the hostname:
+
+`Router1.ad.lab`
+
+A hosts-file entry was added on the VPN client to resolve the hostname to Router1's WAN address:
+
+`192.168.28.184 Router1.ad.lab`
+
+The VPN client used the domain account `AD\alex.morgan` for authentication.
+
+![VPN Client Connection Configuration](Screenshots/07-VPN-NPS/VPN-Client-Connection-Configuration.png)
+
+![VPN Client Hosts File Configuration](Screenshots/07-VPN-NPS/VPN-Client-Hosts-File-Configuration.png)
+
+### 10.8 VPN Authentication and Connection Verification
+
+The VPN connection was tested using the domain user account.
+
+Successful authentication was verified, and the VPN client established an IKEv2 connection to Router1.
+
+![VPN Client Authentication](Screenshots/07-VPN-NPS/VPN-Client-Authentication.png)
+
+![VPN Client Connected](Screenshots/07-VPN-NPS/VPN-Client-Connected.png)
+
+After connecting, the VPN client received an address from the configured VPN address pool.
+
+The assigned VPN address was:
+
+`192.168.60.11`
+
+Connectivity to internal domain resources was tested, including communication with DC1 and access to internal services.
+
+### 10.9 Outcome
+
+The lab demonstrates the deployment of an internal Enterprise Root CA, certificate template configuration, certificate enrollment, root CA trust installation, and IKEv2 VPN connectivity.
+
+It also demonstrates how RRAS, NPS/RADIUS, Active Directory security groups, and certificate-based trust work together to provide authenticated remote access to an internal Windows Server environment.
