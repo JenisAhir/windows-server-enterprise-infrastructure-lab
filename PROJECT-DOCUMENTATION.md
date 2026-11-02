@@ -210,3 +210,83 @@ The completed configuration provided:
 - Active Directory replication between domain controllers.
 
 These services provided the foundation for subsequent DNS, DHCP, Group Policy, file services, and remote access configurations.
+
+## 5. DNS and DHCP Services
+
+### 5.1 DNS Configuration
+
+DNS was configured on both domain controllers to provide name resolution for the `ad.lab` domain.
+
+- DC1 (`192.168.50.10`) hosts the primary DNS service.
+- DC2 (`192.168.50.11`) also hosts DNS to provide redundancy.
+- A forward lookup zone was configured for `ad.lab`.
+- Reverse lookup zones were configured to support IP address-to-hostname resolution.
+
+**DNS configuration on DC1:**
+
+![DC1 DNS Forward Lookup Zone](Screenshots/03-DNS-DHCP/DC1-DNS-Forward-Lookup-Zone.png)
+
+![DC1 DNS Reverse Lookup Zone](Screenshots/03-DNS-DHCP/DC1-DNS-Reverse-Lookup-Zone.png)
+
+**DNS configuration on DC2:**
+
+![DC2 DNS Forward Lookup Zone](Screenshots/03-DNS-DHCP/DC2-DNS-Forward-Lookup-Zone.png)
+
+![DC2 DNS Reverse Lookup Zone](Screenshots/03-DNS-DHCP/DC2-DNS-Reverse-Lookup-Zone.png)
+
+DNS redundancy was verified by confirming that DNS records were available through both domain controllers.
+
+![DNS Redundancy Verification](Screenshots/03-DNS-DHCP/DNS-Redundancy-Verification.png)
+
+### 5.2 DHCP Scope Configuration
+
+The DHCP role was configured to automatically assign IPv4 addresses to devices on the internal network.
+
+The DHCP scope was configured with the following address range:
+
+| Setting | Configuration |
+|---|---|
+| Network | `192.168.50.0/24` |
+| Subnet Mask | `255.255.255.0` |
+| Address Pool | `192.168.50.100–192.168.50.200` |
+| Default Gateway | `192.168.50.1` |
+| DNS Servers | `192.168.50.10`, `192.168.50.11` |
+| DNS Domain | `ad.lab` |
+
+![DHCP Address Pool](Screenshots/03-DNS-DHCP/DHCP-Address-Pool.png)
+
+### 5.3 DHCP Scope Options
+
+DHCP scope options were configured to provide clients with the network settings required to communicate with the domain and access other network resources.
+
+- **Option 003 – Router:** `192.168.50.1`
+- **DNS Servers:** `192.168.50.10` and `192.168.50.11`
+- **DNS Domain Name:** `ad.lab`
+
+![DHCP Option 003 Default Gateway](Screenshots/03-DNS-DHCP/DHCP-Option-003-Default-Gateway.png)
+
+![DHCP DNS Server Configuration](Screenshots/03-DNS-DHCP/DHCP-DNS-Server-Configuration.png)
+
+### 5.4 DHCP Client Address Assignment
+
+A Windows client was configured to obtain its IPv4 configuration automatically through DHCP.
+
+The assigned address and DNS settings were verified on the client.
+
+![DHCP Client Address Assignment](Screenshots/03-DNS-DHCP/DHCP-Client-Address-Assignment.png)
+
+![Client DNS Server Settings](Screenshots/03-DNS-DHCP/Client-DNS-Server-Settings.png)
+
+### 5.5 DHCP Failover Configuration
+
+DHCP failover was configured between DC1 and DC2 to provide continued DHCP service if one domain controller becomes unavailable.
+
+The failover configuration was verified in the DHCP management console.
+
+![DHCP Failover Configuration](Screenshots/03-DNS-DHCP/DHCP-Failover-Configuration.png)
+
+### 5.6 Router1 DNS Configuration
+
+Router1 was configured to use the domain controllers for DNS name resolution on the internal network.
+
+![Router1 DNS Server Configuration](Screenshots/03-DNS-DHCP/Router1-DNS-Server-Configuration.png)
