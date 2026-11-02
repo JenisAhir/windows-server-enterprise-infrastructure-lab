@@ -290,3 +290,84 @@ The failover configuration was verified in the DHCP management console.
 Router1 was configured to use the domain controllers for DNS name resolution on the internal network.
 
 ![Router1 DNS Server Configuration](Screenshots/03-DNS-DHCP/Router1-DNS-Server-Configuration.png)
+
+## 6. Group Policy Management
+
+Group Policy was used to centrally manage user restrictions, workstation security settings, password requirements, and network drive mapping across the `ad.lab` domain.
+
+### 6.1 Support User Restrictions
+
+A Group Policy Object named `Support-Users` was created and linked to the Support organizational unit (OU).
+
+The policy was configured to apply the following restrictions to Support users:
+
+- Prevent access to Control Panel and PC settings.
+- Prevent access to the Command Prompt.
+- Restrict access to Windows PowerShell.
+
+These settings demonstrate how Group Policy can be used to apply role-based restrictions to domain user accounts.
+
+**Control Panel and Settings restriction:**
+
+![Support GPO Control Panel Restriction](Screenshots/04-Group-Policy/Support-GPO-Control-Panel-Restriction.png)
+
+**Command Prompt restriction:**
+
+![Support GPO Command Prompt Restriction](Screenshots/04-Group-Policy/Support-GPO-Command-Prompt-Restriction.png)
+
+**PowerShell restriction:**
+
+![Support GPO PowerShell Restriction](Screenshots/04-Group-Policy/Support-GPO-PowerShell-Restriction.png)
+
+**Verification of Support user restrictions:**
+
+![Support GPO Restrictions Verification](Screenshots/04-Group-Policy/Support-GPO-Restrictions-Verification.png)
+
+### 6.2 Workstation Security Policy
+
+A workstation security GPO was configured to improve security on domain-connected computers.
+
+The policy included:
+
+- Automatically locking inactive workstations after 15 minutes.
+- Displaying a legal notice before users sign in.
+
+The logon notice was configured and verified on the Windows client.
+
+![Workstation GPO Logon Notice Configuration](Screenshots/04-Group-Policy/Workstation-GPO-Logon-Notice-Configuration.png)
+
+![Workstation GPO Logon Notice Verification](Screenshots/04-Group-Policy/Workstation-GPO-Logon-Notice-Verification.png)
+
+### 6.3 Domain Password Policy
+
+The domain password policy was configured through Group Policy to establish password requirements for domain user accounts.
+
+![Domain Password Policy Configuration](Screenshots/04-Group-Policy/Domain-Password-Policy-Configuration.png)
+
+### 6.4 Support Network Drive Mapping
+
+A drive-mapping policy was created to provide Support users with access to a shared network folder.
+
+The initial mapping used the DC1 file-share path:
+
+`\\DC1\Support`
+
+The drive was mapped to the `S:` drive on the client computer.
+
+![Support Drive Mapping GPO Configuration](Screenshots/04-Group-Policy/Support-Drive-Mapping-GPO-Configuration.png)
+
+![Support Drive Mapping Client Verification](Screenshots/04-Group-Policy/Support-Drive-Mapping-Client-Verification.png)
+
+As the lab infrastructure was expanded with DFS, the drive-mapping configuration was updated to use the domain-based DFS namespace:
+
+`\\ad.lab\Support`
+
+This provides users with a consistent domain-based path rather than directly referencing one file server.
+
+**Note:** A separate screenshot of the final GPO path change was not captured.
+
+### 6.5 Group Policy Verification
+
+Group Policy settings were tested using domain user accounts and a Windows client to confirm that the configured restrictions and workstation policies were applied.
+
+The lab demonstrates centralized policy management through Active Directory and Group Policy.
