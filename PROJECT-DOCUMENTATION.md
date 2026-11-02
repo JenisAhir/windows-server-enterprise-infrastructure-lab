@@ -56,3 +56,53 @@ The following diagram illustrates the virtual infrastructure, internal network, 
 - **Router1:** Connects the internal network to external connectivity through RRAS and NAT.
 - **DC1 and DC2:** Provide redundant domain controller and network services.
 - **VPN-Client:** Connects remotely to Router1 using IKEv2 VPN and accesses internal resources.
+
+## 3. VMware Virtual Infrastructure
+
+### 3.1 Virtual Machine Deployment
+
+VMware Workstation was used to create and manage five virtual machines for the Windows Server infrastructure lab.
+
+Each virtual machine was configured with the necessary virtual hardware resources and network adapter settings based on its intended role in the lab.
+
+The following virtual machines were deployed:
+
+| Virtual Machine | Operating System | Purpose |
+|---|---|---|
+| DC1 | Windows Server 2022 | Primary domain controller |
+| DC2 | Windows Server 2022 | Additional domain controller |
+| Router1 | Windows Server 2022 | Routing, NAT and VPN services |
+| Client-PC | Windows 11 Pro | Internal workstation and Group Policy testing |
+| VPN-Client | Windows 11 Pro | Remote VPN connectivity and administration testing |
+
+### 3.2 Virtual Machine Hardware Configuration
+
+The following screenshots show the basic virtual machine configurations in VMware Workstation, including the virtual hardware settings for each system.
+
+#### DC1
+![DC1 Virtual Machine Configuration](Screenshots/01-Virtual-Infrastructure/DC1-VM-Configuration.png)
+
+#### DC2
+![DC2 Virtual Machine Configuration](Screenshots/01-Virtual-Infrastructure/DC2-VM-Configuration.png)
+
+#### Router1
+![Router1 Virtual Machine Configuration](Screenshots/01-Virtual-Infrastructure/Router1-VM-Configuration.png)
+
+#### Client-PC
+![Client-PC Virtual Machine Configuration](Screenshots/01-Virtual-Infrastructure/Client-PC-VM-Configuration.png)
+
+#### VPN-Client
+![VPN-Client Virtual Machine Configuration](Screenshots/01-Virtual-Infrastructure/VPN-Client-VM-Configuration.png)
+
+### 3.3 Virtual Network Design
+
+Two VMware virtual networks were used to separate internal lab communication from external network connectivity.
+
+- **VMnet10:** Internal virtual network used for communication between the domain controllers, Router1 and the internal workstation.
+- **VMnet8:** VMware NAT network used for Router1's WAN connectivity and the remote VPN client.
+
+Router1 was configured with two virtual network adapters:
+- LAN adapter connected to VMnet10.
+- WAN adapter connected to VMnet8.
+
+This network design allowed Router1 to provide routing and NAT services between the internal lab network and external connectivity.
