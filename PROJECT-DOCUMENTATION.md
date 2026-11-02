@@ -35,13 +35,13 @@ The internal network uses the `192.168.50.0/24` subnet. Domain controllers and i
 
 ### 2.2 Virtual Machines
 
-| Virtual Machine | Operating System | Purpose |
-|---|---|---|
-| DC1 | Windows Server 2022 | Primary domain controller, DNS, DHCP, Group Policy, file services, DFS, AD CS, NPS and Windows Server Backup |
-| DC2 | Windows Server 2022 | Additional domain controller, DNS, DHCP, Group Policy, file services, DFS, NPS and Windows Server Backup |
-| Router1 | Windows Server 2022 | Routing, NAT, RRAS and IKEv2 VPN |
-| Client-PC | Windows 11 Pro | Internal domain client and policy testing |
-| VPN-Client | Windows 11 Pro | Remote VPN connectivity and administration testing |
+| Virtual Machine | Operating System |
+|---|---|
+| DC1 | Windows Server 2022 |
+| DC2 | Windows Server 2022 |
+| Router1 | Windows Server 2022 |
+| Client-PC | Windows 11 Pro |
+| VPN-Client | Windows 11 Pro |
 
 ### 2.3 Network Topology
 
